@@ -1,4 +1,4 @@
-package com.reactnativeadyenpayment;
+package com.reactnativeadpayment;
 
 import android.content.Context;
 
