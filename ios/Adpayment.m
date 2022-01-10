@@ -4,16 +4,19 @@
 
 RCT_EXPORT_MODULE()
 
-// Example method
-// See // https://reactnative.dev/docs/native-modules-ios
-RCT_REMAP_METHOD(multiply,
-                 multiplyWithA:(nonnull NSNumber*)a withB:(nonnull NSNumber*)b
-                 withResolver:(RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)
-{
-  NSNumber *result = @([a floatValue] * [b floatValue]);
+@end
+@interface RCT_EXTERN_MODULE(AdpaymentModule, NSObject)
 
-  resolve(result);
-}
+ +(BOOL)requiresMainQueueSetup
+ {
+   return YES;
+ }
 
+ RCT_EXTERN_METHOD(encryptCard:(NSString) cardNumber
+ expiryMonth:(NSString)expiryMonth
+ expiryYear:(NSString) expiryYear
+ securityCode:(NSString) securityCode
+ publicKey:(NSString) publicKey
+ resolver:(RCTPromiseResolveBlock)resolve
+ rejecter:(RCTPromiseRejectBlock)reject)
 @end

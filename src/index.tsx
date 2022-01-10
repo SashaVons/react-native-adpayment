@@ -1,7 +1,7 @@
 import { NativeModules } from 'react-native';
 import type { Card } from './types';
 
-const AdyenPayment = NativeModules.AdyenPayment;
+const AdyenPayment = NativeModules.AdpaymentModule;
 
 export const encryptCard = (card: Card, publicToken: string) => {
   const { number, cvc, expiryMonth, expiryYear } = card;
