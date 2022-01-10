@@ -1,5 +1,5 @@
 //
-//  AdpaymentModule.swift
+//  Adpayment.swift
 //  RNAdyenCrypt
 //
 //  Created by Raphael on 01/07/2021.
@@ -10,8 +10,8 @@ import Adyen
 import Foundation
 import SafariServices
 
-@objc(AdpaymentModule)
-class AdpaymentModule: RCTEventEmitter {
+@objc(Adpayment)
+class Adpayment: RCTEventEmitter {
   var cardComponent: CardComponent?
   override func supportedEvents() -> [String]! {
     return [
@@ -22,7 +22,7 @@ class AdpaymentModule: RCTEventEmitter {
   }
 }
 //CardComponentDelegate
-extension AdpaymentModule: CardComponentDelegate {
+extension Adpayment: CardComponentDelegate {
     func didChangeBIN(_ value: String, component: CardComponent) {
         
     }

@@ -2,10 +2,14 @@
 
 @implementation Adpayment
 
+- (dispatch_queue_t)methodQueue
+{
+    return dispatch_get_main_queue();
+}
 RCT_EXPORT_MODULE()
 
 @end
-@interface RCT_EXTERN_MODULE(AdpaymentModule, NSObject)
+@interface RCT_EXTERN_MODULE(Adpayment, NSObject)
 
  +(BOOL)requiresMainQueueSetup
  {
