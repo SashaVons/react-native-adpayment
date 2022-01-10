@@ -9,7 +9,7 @@
 RCT_EXPORT_MODULE()
 
 @end
-@interface RCT_EXTERN_MODULE(Adpayment, NSObject)
+@interface RCT_EXTERN_MODULE(AdpaymenModule, NSObject)
 
  +(BOOL)requiresMainQueueSetup
  {
