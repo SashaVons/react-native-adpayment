@@ -1,22 +1,23 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules } from 'react-native';
+import type { Card } from './types';
 
-const LINKING_ERROR =
-  `The package 'react-native-adpayment' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo managed workflow\n';
+const AdyenPayment = NativeModules.AdyenPayment;
 
-const Adpayment = NativeModules.Adpayment
-  ? NativeModules.Adpayment
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+export const encryptCard = (card: Card, publicToken: string) => {
+  const { number, cvc, expiryMonth, expiryYear } = card;
+  return AdyenPayment.encrypt(
+    number,
+    cvc,
+    expiryMonth,
+    expiryYear,
+    publicToken
+  );
+};
 
-export function multiply(a: number, b: number): Promise<number> {
-  return Adpayment.multiply(a, b);
-}
+export const openRedirect = (data: any, publicKey: string) => {
+  return AdyenPayment.openRedirect(data, publicKey);
+};
+
+export default {
+  encryptCard,
+};
