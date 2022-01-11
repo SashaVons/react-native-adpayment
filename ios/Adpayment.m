@@ -1,4 +1,4 @@
-#import "Adpayment.h"
+#import <React/RCTBridgeModule.h>
 
 @implementation Adpayment
 
