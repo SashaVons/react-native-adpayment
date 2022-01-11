@@ -1,20 +1,6 @@
 #import <React/RCTBridgeModule.h>
 
-@implementation Adpayment
-
-- (dispatch_queue_t)methodQueue
-{
-    return dispatch_get_main_queue();
-}
-RCT_EXPORT_MODULE()
-
-@end
-@interface RCT_EXTERN_MODULE(AdpaymenModule, NSObject)
-
- +(BOOL)requiresMainQueueSetup
- {
-   return YES;
- }
+@interface RCT_EXTERN_MODULE(Adpayment, NSObject)
 
  RCT_EXTERN_METHOD(encryptCard:(NSString) cardNumber
  expiryMonth:(NSString)expiryMonth
@@ -23,4 +9,5 @@ RCT_EXPORT_MODULE()
  publicKey:(NSString) publicKey
  resolver:(RCTPromiseResolveBlock)resolve
  rejecter:(RCTPromiseRejectBlock)reject)
+
 @end
