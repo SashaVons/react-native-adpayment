@@ -43,7 +43,7 @@ public class AdpaymentModule extends ReactContextBaseJavaModule {
   }
 
 
-  @ReactMethod void openRedirect(String publicKey, String paymentResponse) {
+  @ReactMethod void openRedirect(String paymentResponse, String publicKey) {
     JSONObject redirectData = null;
     try {
       redirectData = new JSONObject(paymentResponse);

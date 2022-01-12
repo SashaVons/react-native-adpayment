@@ -1,6 +1,6 @@
 #import <React/RCTBridgeModule.h>
 
-@interface RCT_EXTERN_MODULE(Adpayment, NSObject)
+@interface RCT_EXTERN_MODULE(AdpaymentModule, NSObject)
 
  RCT_EXTERN_METHOD(encryptCard:(NSString) cardNumber
  expiryMonth:(NSString)expiryMonth
