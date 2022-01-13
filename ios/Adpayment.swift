@@ -38,9 +38,9 @@ class Adpayment: NSObject, ActionComponentDelegate, PresentationDelegate {
     }
 
     @objc func encrypt(_ cardNumber: String,
-                           securityCode:String,
                            expiryMonth:String,
                            expiryYear:String,
+                           securityCode:String,
                            publicKey: String,
                            resolver resolve: RCTPromiseResolveBlock,
                            rejecter reject: RCTPromiseRejectBlock)  {
