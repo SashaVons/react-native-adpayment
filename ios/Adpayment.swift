@@ -3,11 +3,7 @@ import Foundation
 import SafariServices
 
 @objc(Adpayment)
-class Adpayment: NSObject, ActionComponentDelegate, PresentationDelegate {
-    func present(component: PresentableComponent) {
-        
-    }
-    
+class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate {
     func didOpenExternalApplication(_ component: ActionComponent) {
         
     }
@@ -24,17 +20,31 @@ class Adpayment: NSObject, ActionComponentDelegate, PresentationDelegate {
         
     }
     
+    func present(component: PresentableComponent) {
+        
+    }
+    
+    var redirectComponent: RedirectComponent?
+    
+    override static func requiresMainQueueSetup() -> Bool {
+        return true
+    }
+    
     @objc func openRedirect(_ redirectData: String, clientKey: String) {
-        let actionComponent: AdyenActionComponent = {
-            let apiContext = APIContext(environment: Environment.test, clientKey: clientKey)
-            let component = AdyenActionComponent(apiContext: apiContext)
-            component.delegate = self
-            component.presentationDelegate = self
-            return component
+        let apiContext = APIContext(environment: Environment.liveEurope, clientKey: clientKey)
+        let json = redirectData.data(using: .utf8)!
+        let action = try! JSONDecoder().decode(Action.self, from: json)
+        lazy var actionComponent: AdyenActionComponent = {
+            let handler = AdyenActionComponent(apiContext: apiContext)
+            handler.delegate = self
+            handler.presentationDelegate = self
+            handler._isDropIn = true
+            return handler
         }()
-        let data = Data(redirectData.utf8)
-        let action = try! JSONDecoder().decode(Action.self, from: data)
-        actionComponent.handle(action)
+        print(action)
+        DispatchQueue.main.async {
+            actionComponent.handle(action)
+        }
     }
 
     @objc func encrypt(_ cardNumber: String,
@@ -61,5 +71,12 @@ class Adpayment: NSObject, ActionComponentDelegate, PresentationDelegate {
      } catch _ {
          print("Not me error")
      }
+    }
+    
+    override func supportedEvents() -> [String]! {
+        return [
+            "onError",
+            "onSuccess"
+        ]
     }
 }
