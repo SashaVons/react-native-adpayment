@@ -4,6 +4,10 @@ import SafariServices
 
 @objc(Adpayment)
 class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate {
+    func present(component: PresentableComponent, disableCloseButton: Bool) {
+        
+    }
+    
     func didOpenExternalApplication(_ component: ActionComponent) {
         
     }
@@ -31,19 +35,14 @@ class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate 
     }
     
     @objc func openRedirect(_ redirectData: String, clientKey: String) {
-        let apiContext = APIContext(environment: Environment.liveEurope, clientKey: clientKey)
         let json = redirectData.data(using: .utf8)!
-        let action = try! JSONDecoder().decode(Action.self, from: json)
-        lazy var actionComponent: AdyenActionComponent = {
-            let handler = AdyenActionComponent(apiContext: apiContext)
-            handler.delegate = self
-            handler.presentationDelegate = self
-            handler._isDropIn = true
-            return handler
-        }()
-        print(action)
+        let action = try! JSONDecoder().decode(RedirectAction.self, from: json)
+        let redirectComponent = RedirectComponent();
+        redirectComponent.delegate = self
+        redirectComponent.clientKey = clientKey
+        self.redirectComponent = redirectComponent
         DispatchQueue.main.async {
-            actionComponent.handle(action)
+            redirectComponent.handle(action)
         }
     }
 
@@ -54,12 +53,12 @@ class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate 
                            publicKey: String,
                            resolver resolve: RCTPromiseResolveBlock,
                            rejecter reject: RCTPromiseRejectBlock)  {
-        let card = Card(number: cardNumber,
+        let card = CardEncryptor.Card(number: cardNumber,
                                       securityCode: securityCode,
                                       expiryMonth:  expiryMonth,
                                       expiryYear: expiryYear)
      do {
-         let encryptedCard = try CardEncryptor.encrypt(card: card, with: publicKey)
+         let encryptedCard = try CardEncryptor.encryptedCard(for: card, publicKey: publicKey)
           
           let resultMap:Dictionary? = [
             "encryptedCardNumber":encryptedCard.number,
