@@ -16,5 +16,5 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,swift}"
   
   s.dependency "React-Core"
-  s.dependency "Adyen", "~> 3.8.4"
+  s.dependency "Adyen", "~> 3.9.1"
 end
