@@ -35,7 +35,9 @@ class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate 
     }
     
     @objc func closeRedirect() {
-        self.redirectComponent = nil;
+        DispatchQueue.main.async {
+            self.redirectComponent!.dismiss(true, completion: nil)
+        }
     }
     
     @objc func openRedirect(_ redirectData: String, clientKey: String) {

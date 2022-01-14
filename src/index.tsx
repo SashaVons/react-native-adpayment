@@ -19,8 +19,8 @@ export const openRedirect = (data: any, publicKey: string) => {
   return AdyenPayment.openRedirect(data, publicKey);
 };
 
-export const closeRedirect = (data: any, publicKey: string) => {
-  if (Platform.OS === 'ios') return AdyenPayment.closeRedirect(data, publicKey);
+export const closeRedirect = () => {
+  if (Platform.OS === 'ios') return AdyenPayment.closeRedirect();
 };
 
 export default {
