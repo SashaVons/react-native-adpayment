@@ -4,9 +4,9 @@
 @interface RCT_EXTERN_MODULE(Adpayment, NSObject)
 
 RCT_EXTERN_METHOD(encrypt:(NSString) cardNumber
+ securityCode:(NSString) securityCode
  expiryMonth:(NSString)expiryMonth
  expiryYear:(NSString) expiryYear
- securityCode:(NSString) securityCode
  publicKey:(NSString) publicKey
  resolver:(RCTPromiseResolveBlock)resolve
  rejecter:(RCTPromiseRejectBlock)reject)
