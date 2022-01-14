@@ -4,6 +4,8 @@ import SafariServices
 
 @objc(Adpayment)
 class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate {
+    var redirectComponent: RedirectComponent?
+    
     func present(component: PresentableComponent, disableCloseButton: Bool) {
         
     }
@@ -28,21 +30,23 @@ class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate 
         
     }
     
-    var redirectComponent: RedirectComponent?
-    
     override static func requiresMainQueueSetup() -> Bool {
         return true
+    }
+    
+    @objc func closeRedirect() {
+        self.redirectComponent = nil;
     }
     
     @objc func openRedirect(_ redirectData: String, clientKey: String) {
         let json = redirectData.data(using: .utf8)!
         let action = try! JSONDecoder().decode(RedirectAction.self, from: json)
-        let redirectComponent = RedirectComponent();
-        redirectComponent.delegate = self
-        redirectComponent.clientKey = clientKey
-        self.redirectComponent = redirectComponent
+        let redirect = RedirectComponent();
+        redirect.delegate = self
+        redirect.clientKey = clientKey
+        self.redirectComponent = redirect
         DispatchQueue.main.async {
-            redirectComponent.handle(action)
+            self.redirectComponent!.handle(action)
         }
     }
 
