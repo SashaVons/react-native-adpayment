@@ -5,25 +5,32 @@ import SafariServices
 @objc(Adpayment)
 class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate {
     var redirectComponent: RedirectComponent?
+    var redirectCanceled = false;
     
     func present(component: PresentableComponent, disableCloseButton: Bool) {
-        
+        print("present")
+        print(disableCloseButton)
     }
     
     func didOpenExternalApplication(_ component: ActionComponent) {
-        
+        print("didOpenExternalApplication")
+        print(component)
     }
     
     func didProvide(_ data: ActionComponentData, from component: ActionComponent) {
-        
+        print("didProvide")
+        print(data)
     }
     
     func didComplete(from component: ActionComponent) {
-        
+        print("didComplete")
+        print(component)
     }
     
     func didFail(with error: Error, from component: ActionComponent) {
-        
+        if(error.localizedDescription == "cancelled") {
+            self.redirectCanceled = true
+        }
     }
     
     func present(component: PresentableComponent) {
@@ -39,8 +46,13 @@ class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate 
             self.redirectComponent!.dismiss(true, completion: nil)
         }
     }
+
+    @objc func redirectDidCancel() {
+        return self.redirectCanceled
+    }
     
     @objc func openRedirect(_ redirectData: String, clientKey: String) {
+        self.redirectCanceled = false
         let json = redirectData.data(using: .utf8)!
         let action = try! JSONDecoder().decode(RedirectAction.self, from: json)
         let redirect = RedirectComponent();
@@ -50,10 +62,6 @@ class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate 
         DispatchQueue.main.async {
             self.redirectComponent!.handle(action)
         }
-    }
-    
-    @objc func redirectDidCancel(resolver resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
-        resolve(self.redirectComponent?.didCancel())
     }
 
     @objc func encrypt(_ cardNumber: String,
