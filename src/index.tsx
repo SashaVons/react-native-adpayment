@@ -23,6 +23,10 @@ export const closeRedirect = () => {
   if (Platform.OS === 'ios') return AdyenPayment.closeRedirect();
 };
 
+export const redirectDidCancel = () => {
+  if (Platform.OS === 'ios') return AdyenPayment.redirectDidCancel();
+};
+
 export default {
   encryptCard,
 };

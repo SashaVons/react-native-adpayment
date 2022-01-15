@@ -51,6 +51,10 @@ class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate 
             self.redirectComponent!.handle(action)
         }
     }
+    
+    @objc func redirectDidCancel(resolver resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
+        resolve(self.redirectComponent?.didCancel())
+    }
 
     @objc func encrypt(_ cardNumber: String,
                            securityCode:String,

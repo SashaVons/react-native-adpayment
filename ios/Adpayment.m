@@ -14,6 +14,9 @@ RCT_EXTERN_METHOD(encrypt:(NSString) cardNumber
 RCT_EXTERN_METHOD(openRedirect:(NSString) redirectData
  clientKey:(NSString) clientKey)
 
+RCT_EXTERN_METHOD(redirectDidCancel:(RCTPromiseResolveBlock)resolve
+ reject:(RCTPromiseRejectBlock)reject)
+
 RCT_EXTERN_METHOD(closeRedirect)
 
 @end
