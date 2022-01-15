@@ -47,8 +47,8 @@ class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate 
         }
     }
 
-    @objc func redirectDidCancel() {
-        return self.redirectCanceled
+    @objc func redirectDidCancel(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
+        resolve(self.redirectCanceled)
     }
     
     @objc func openRedirect(_ redirectData: String, clientKey: String) {
