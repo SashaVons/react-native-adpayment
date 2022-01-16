@@ -23,12 +23,10 @@ class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate 
     }
     
     func didComplete(from component: ActionComponent) {
-        print("didComplete")
-        print(component)
     }
     
     func didFail(with error: Error, from component: ActionComponent) {
-        if(error.localizedDescription == "cancelled") {
+        if((error as? ComponentError) == .cancelled) {
             self.redirectCanceled = true
         }
     }
@@ -43,12 +41,17 @@ class Adpayment: RCTEventEmitter, PresentationDelegate, ActionComponentDelegate 
     
     @objc func closeRedirect() {
         DispatchQueue.main.async {
-            self.redirectComponent!.dismiss(true, completion: nil)
+            if(self.redirectComponent != nil) {
+                self.redirectComponent?.dismiss(true, completion: nil)
+            }
         }
     }
 
     @objc func redirectDidCancel(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
         resolve(self.redirectCanceled)
+        if(self.redirectCanceled) {
+            self.redirectCanceled = false;
+        }
     }
     
     @objc func openRedirect(_ redirectData: String, clientKey: String) {
